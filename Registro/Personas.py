@@ -8,16 +8,23 @@ class Persona:
     __edad: int
     __motivo: str
     __priority: int
+    __asesoria: bool
+    __alimento : bool
+    __refugio : bool
+    
     
     #Urgente sera 1 y regular sera 2 
     
-    def __init__(self, nombre, id, nacionalidad, edad, motivo, priority):
+    def __init__(self, nombre, id, nacionalidad, edad, motivo, priority, asesoria, alimento, refugio):
         self.__nombre = nombre
         self.__id = id
         self.__nacionalidad = nacionalidad
         self.__edad = edad
         self.__motivo = motivo
         self.__priority = priority
+        self.__asesoria = asesoria
+        self.__alimento = alimento
+        self.__refugio = refugio
 
     def __str__(self):
         return f'{self.nombre}'
