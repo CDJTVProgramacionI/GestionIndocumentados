@@ -51,11 +51,12 @@ def pidedatos(lee : ProReader):
 
 def print_menu():
     print("Bienvenido al sistema de gestion de migrantes")
-    print("1. Ingrar datos")
-    print("2. Segumiento de asesoria")
-    print("3. Seguimiento de refugios")
-    print("4. Imprimir reporte semanal")
-    print("5. Salir")
+    print("1. Ingresar datos")
+    print("2. Atender siguiente")
+    print("3. Segumiento de asesoria")
+    print("4. Seguimiento de refugios")
+    print("5. Imprimir reporte semanal")
+    print("6. Salir")
 
 def main():
     lee = ProReader("lib/pro_reader.dll")
@@ -63,7 +64,7 @@ def main():
     seg_asesorias = SeguimientoAsesoria()
     seg_refugios = SeguimientoRefugios()
     op = 0
-    while op != 5:
+    while op != 6:
         print_menu()
         op = lee.read_int("Ingrese una opcion: ")
         
@@ -72,14 +73,16 @@ def main():
                 persona = pidedatos(lee)
                 registros.registrar(persona)
             case 2:
-                id = lee.read_string("Ingrese el id de la persona:")
-                seg_asesorias.darSeguimiento(id)
+                registros.atendsig()
             case 3:
                 id = lee.read_string("Ingrese el id de la persona:")
-                seg_refugios.darSeguimiento(id)
+                seg_asesorias.darSeguimiento(id)
             case 4:
-                print("You selected Option 4")
+                id = lee.read_string("Ingrese el id de la persona:")
+                seg_refugios.darSeguimiento(id)
             case 5:
+                print("You selected Option 4")
+            case 6:
                 print("Ayos suerte con la deportacion")
             case _:
                 print("Opcion invalida")
