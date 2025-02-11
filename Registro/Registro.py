@@ -29,5 +29,8 @@ class Registro:
         else: 
             return self.__urgente.pop()
         
+    def get_casostotales(self) -> int:
+        return self.__totalcase
+        
     
     

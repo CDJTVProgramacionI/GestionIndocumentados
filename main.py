@@ -3,6 +3,16 @@ from Registro.Personas import Persona
 from Registro.Registro import Registro
 from Registro.Seguimiento import *
 from Registro.Recurso import *
+from Registro.Reporte import Reporte
+
+def crea_reporte(registro : Registro, recursos : Recursos, seguimiento_asesorias : SeguimientoAsesoria):
+    personas_atendidos = registro.get_casostotales()
+    #recursos_utilizados = recursos.get_recursos_utilizados()
+    #recursos_disponibles = recursos.get_recursos_disponibles()
+    #casos_resueltos = seguimiento_asesorias.get_casos_resueltos()
+    #casos_pendientes = registro.get_casostotales()
+    #reporte = Reporte(personas_atendidos, recursos_utilizados, recursos_disponibles, casos_resueltos, casos_pendientes)
+    #reporte.generar_reporte("reporte.txt")
 
 def crea_recursos():
         #Crea los asesores legales
