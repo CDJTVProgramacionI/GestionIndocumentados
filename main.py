@@ -2,6 +2,23 @@ from lib.pro_reader import ProReader
 from Registro.Personas import Persona
 from Registro.Registro import Registro
 from Registro.Seguimiento import *
+from Registro.Recurso import *
+
+def crea_recursos():
+        #Crea los asesores legales
+        AsesorLegal1 = AsesorLegal("Asesor 1")
+        AsesorLegal2 = AsesorLegal("Asesor 2")
+        AsesorLegal3 = AsesorLegal("Asesor 3")
+        
+        # Crear tres refugios con una capacidad de 15 personas cada uno
+        refugio1 = Refugio ("Refugio 1", 15)
+        refugio2 = Refugio("Refugio 2", 15)
+        refugio3 = Refugio("Refugio 3", 15)
+        
+        #Crea los alimentos
+        paquete1 = Alimentos(["Arroz", "Frijoles", "Aceite"])
+        paquete2 = Alimentos(["Pasta", "Salsa de tomate", "Queso"]) #pasar al main
+        paquete3 = Alimentos(["Pan", "Mermelada", "Leche"])
 
 def pidedatos(lee : ProReader):
     nombre=lee.read_string("Ingrese el nombre e la persona: ")
