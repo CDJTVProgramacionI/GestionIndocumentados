@@ -4,8 +4,12 @@ class Node:
         self.next = None
 
 class CircularLinkedList:
+    __len = 0
+    
     def __init__(self):
         self.head = None
+        self.__len = 0
+        
 
     def insertAtBegin(self, data):
         new_node = Node(data)
@@ -19,6 +23,8 @@ class CircularLinkedList:
             new_node.next = self.head
             temp.next = new_node
             self.head = new_node
+            
+        self.__len += 1
 
     def insertAtEnd(self, data):
         new_node = Node(data)
@@ -31,6 +37,8 @@ class CircularLinkedList:
                 temp = temp.next
             temp.next = new_node
             new_node.next = self.head
+            
+        self.__len
 
     def insertAt(self, index, data):
         if index == 0:
@@ -44,6 +52,8 @@ class CircularLinkedList:
                 raise IndexError("Index out of bounds")
         new_node.next = temp.next
         temp.next = new_node
+        
+        self.__len += 1
 
     def deleteAtBegin(self):
         if not self.head:
@@ -56,6 +66,8 @@ class CircularLinkedList:
                 temp = temp.next
             temp.next = self.head.next
             self.head = self.head.next
+            
+        self.__len -= 1
 
     def deleteAtEnd(self):
         if not self.head:
@@ -67,6 +79,8 @@ class CircularLinkedList:
             while temp.next.next != self.head:
                 temp = temp.next
             temp.next = self.head
+            
+        self.__len -= 1
 
     def deleteAt(self, index):
         if not self.head:
@@ -80,18 +94,22 @@ class CircularLinkedList:
             if temp.next == self.head:
                 raise IndexError("Index out of bounds")
         temp.next = temp.next.next
+        
+        self.__len -= 1
 
     def search(self, data):
+        index = -1
         if not self.head:
-            return False
+            return index
         temp = self.head
         while True:
+            index += 1
             if temp.data == data:
-                return True
+                return index
             temp = temp.next
             if temp == self.head:
                 break
-        return False
+        return -1
 
     def print(self):
         if not self.head:

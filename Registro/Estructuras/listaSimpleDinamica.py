@@ -93,16 +93,14 @@ class LinkedList:
         self.__len -= 1
         return val    
             
-    def search(self, data : any) -> int:
+    def search(self, data : any) -> any:
         current = self.__head
-        i = 0
         while current is not None:
             if current.data == data:
-                return i
+                return current.data
             current = current.next
-            i += 1
             
-        return -1
+        return None
     
     def print(self):
         current = self.__head
