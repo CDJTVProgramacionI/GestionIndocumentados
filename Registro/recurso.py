@@ -47,21 +47,15 @@ class AsesorLegal:
 
 
     #agregar otro metodo para liberar asesor que cambie la disponibilidad a true (PENDIENTE JOU)
-    def liberarAsesor(self):
-        ###Recorrer la lista para asignar el primer asesor disponible
-        actual=arreglo_listas[0].cabeza ###Apunta al primer nodo de la lista en la posicion 0
-        while actual: ###recorre mientras que el nodo no apunte a null (es decir mientras siga habiendo nodos)
-            if not actual.dato.disponibilidad: ###Si el asesor (nodo) NO está disponible
-                actual.dato.disponibilidad = True ### lo libera cambiando la disponibilidad a true
-                print(f"El asesor {actual.dato.nombre} ya está disponible.")
-                return False ###Retorna False cuando se libera
-            actual=actual.siguiente #si ya esta liberado, pasa al siguiente
-            
-        #si no encontró asesores por liberar
-        print(f"Todos los asesores están disponibles.")
-        return True 
-        
-        #recorrer la lista de asesores y liberar el primero que este ocupado (jou)
+#agregar otro metodo para liberar asesor que cambie la disponibilidad a true (PENDIENTE JOU)
+def liberarAsesor(self, nombre):
+    a = AsesorLegal(nombre) #variable arbitraria para guardar el nombre
+    asesor=arreglo_listas[0].search(a)#retorna none si no encuentra nada (no esta disponible)
+    
+    if asesor==None:
+        print(f"El asesor {asesor.nombre} no se encuentra.")
+        return
+    else: asesor.disponibilidad = True ### lo libera cambiando la disponibilidad a true
 
 
 class recursos:
