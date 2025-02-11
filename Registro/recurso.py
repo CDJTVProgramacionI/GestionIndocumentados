@@ -58,7 +58,7 @@ def liberarAsesor(self, nombre):
     else: asesor.disponibilidad = True ### lo libera cambiando la disponibilidad a true
 
 
-class recursos:
+class Recursos:
     def __init__(self, nombre):
         self.nombre = nombre # Nombre del recurso
 
