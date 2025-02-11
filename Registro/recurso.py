@@ -133,24 +133,20 @@ class Refugio:
         #si no encontró ninguno con capacidad disponible
         print(f"Error: No hay capacidad disponible en ningún refugio")           
 
-    
-    #(PENDIENTE JOU)  
-    def liberarRefugio(self):
-        ###Recorrer la lista para liberar refugio
-        actual=arreglo_listas[1].cabeza ###Apunta al primer nodo de la lista en la posicion 0
-        while actual: ###recorre mientras que el nodo no apunte a null (es decir mientras siga habiendo nodos)
-            if actual.dato.ocupantes <= 0: ###Si el refugio (nodo) ya no tiene ocupantes/personas
-                print(f"Error: No hay ocupantes en el refugio {self.dato.nombre}.")
-                return True ###Retorna True cuando se asigna el refugio
-            actual=actual.siguiente #si ese si tiene ocupantes, pasa al siguiente
-            
-        #si no encontró ninguno con ocupantes
-        print(f"Todos los refugios estan vacíos")
-        return False 
-    #recorrer la lista de refugios y liberar el primero que tenga ocupantes (jou)
 
-    def revisarCapacidad(self):
-        return self.capacidad - self.ocupantes
+def liberarRefugio(self, nombre, persona: Persona):
+    b = Refugio(nombre) #variable arbitraria para guardar el nombre
+    refug=arreglo_listas[1].search(b)#retorna none si no encuentra nada (no esta disponible)
+    
+    if refug==None:
+        print(f"El refugio {refug.nombre} no se encuentra.")
+        return
+    elif refug.ocupante <= 0: ###Si el refugio (nodo) ya no tiene ocupantes/personas
+        print(f"Error: No hay ocupantes en el refugio {refug.nombre}.")
+        return
+    else:
+        refug.ocupantes=0 ##se libera el refugio (sin tomar en cuenta la persona)
+        return
     
 
 @dataclass
