@@ -66,23 +66,38 @@ class AsesorLegal:
 
 class recursos:
     def __init__(self, nombre):
-        self.nombre = nombre
+        self.nombre = nombre # Nombre del recurso
 
     def asignarAsesoria(self, persona: Persona):
         if not self.disponibilidad:
             print(f"Error: La asesoría legal {self.nombre} no está disponible.")
             return
         #asignar asesor
-        #registrar en lista doble
+        asesor = AsesorLegal()
+        asesor.asignarAsesor(arreglo_listas)
 
+        # Registrar en la lista doble
+        lista_recursos_asignados.insertAtEnd({
+            'persona': persona,
+            'recurso': 'Asesoría Legal',
+            'nombre_recurso': self.nombre
+        })
+        print(f"Se ha registrado la asesoría legal {self.nombre} para la persona {persona.nombre}.")
 
-    def asignarAlimento(self, persona: Persona, arreglo_listas, lista_alimentos):
+    def asignarAlimento(self, persona: Persona, lista_alimentos):
         ###Recorrer la lista para asignar el primer alimento disponible 
         alimentos = lista_alimentos[2].deleteAtBegin()
+        if alimentos is None:
+            print("Error: No hay alimentos disponibles.")
+            return
 
-        #registrar en la lista doble 
-
-        #registrar en la lista doble
+        # Registrar en la lista doble
+        lista_recursos_asignados.insertAtEnd({
+            'persona': persona,
+            'recurso': 'Alimentos',
+            'nombre_recurso': self.nombre
+        })
+        print(f"Se ha registrado el paquete de alimentos {self.nombre} para la persona {persona.nombre}.")
 
 
 #en refugio tiene que checar la capacidad y que sea mayor a 0,metodo para meter y sacar personas y revisar capacidad esto es para los 3 aseosres,comida y refugio
