@@ -10,6 +10,9 @@ class CircularLinkedList:
         self.head = None
         self.__len = 0
         
+    def size(self):
+        return self.__len
+        
 
     def insertAtBegin(self, data):
         new_node = Node(data)
