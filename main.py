@@ -1,6 +1,7 @@
 from lib.pro_reader import ProReader
 from Registro.Personas import Persona
 from Registro.Registro import Registro
+from Registro.Seguimiento import *
 
 def pidedatos(lee : ProReader):
     nombre=lee.read_string("Ingrese el nombre e la persona: ")
@@ -32,6 +33,8 @@ def print_menu():
 def main():
     lee = ProReader("lib/pro_reader.dll")
     registros = Registro()
+    seg_asesorias = SeguimientoAsesoria()
+    seg_refugios = SeguimientoRefugios()
     op = 0
     while op != 5:
         print_menu()
@@ -42,9 +45,11 @@ def main():
                 persona = pidedatos(lee)
                 registros.registrar(persona)
             case 2:
-                print("You selected Option 2")
+                id = lee.read_string("Ingrese el id de la persona:")
+                seg_asesorias.darSeguimiento(id)
             case 3:
-                print("You selected Option 3")
+                id = lee.read_string("Ingrese el id de la persona:")
+                seg_refugios.darSeguimiento(id)
             case 4:
                 print("You selected Option 4")
             case 5:
