@@ -30,7 +30,7 @@ class Persona:
         return f'{self.nombre}'
     #Eq compara igual, lt menor que, le menor o igual, gt mayor que, ge mayor o igual, ne diferente 
     def __eq__(self, other):
-        return self.id == other.id
+        return self.__id == other.__id
 
     def __lt__(self, other):
         return self.__priority < other.__priority
