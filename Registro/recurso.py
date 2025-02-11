@@ -47,42 +47,51 @@ class AsesorLegal:
 
 
     #agregar otro metodo para liberar asesor que cambie la disponibilidad a true (PENDIENTE JOU)
-    def liberarAsesor(self):
-        ###Recorrer la lista para asignar el primer asesor disponible
-        actual=arreglo_listas[0].cabeza ###Apunta al primer nodo de la lista en la posicion 0
-        while actual: ###recorre mientras que el nodo no apunte a null (es decir mientras siga habiendo nodos)
-            if not actual.dato.disponibilidad: ###Si el asesor (nodo) NO está disponible
-                actual.dato.disponibilidad = True ### lo libera cambiando la disponibilidad a true
-                print(f"El asesor {actual.dato.nombre} ya está disponible.")
-                return False ###Retorna False cuando se libera
-            actual=actual.siguiente #si ya esta liberado, pasa al siguiente
-            
-        #si no encontró asesores por liberar
-        print(f"Todos los asesores están disponibles.")
-        return True 
-        
-        #recorrer la lista de asesores y liberar el primero que este ocupado (jou)
+#agregar otro metodo para liberar asesor que cambie la disponibilidad a true (PENDIENTE JOU)
+def liberarAsesor(self, nombre):
+    a = AsesorLegal(nombre) #variable arbitraria para guardar el nombre
+    asesor=arreglo_listas[0].search(a)#retorna none si no encuentra nada (no esta disponible)
+    
+    if asesor==None:
+        print(f"El asesor {asesor.nombre} no se encuentra.")
+        return
+    else: asesor.disponibilidad = True ### lo libera cambiando la disponibilidad a true
 
 
 class recursos:
     def __init__(self, nombre):
-        self.nombre = nombre
+        self.nombre = nombre # Nombre del recurso
 
     def asignarAsesoria(self, persona: Persona):
         if not self.disponibilidad:
             print(f"Error: La asesoría legal {self.nombre} no está disponible.")
             return
         #asignar asesor
-        #registrar en lista doble
+        asesor = AsesorLegal()
+        asesor.asignarAsesor(arreglo_listas)
 
+        # Registrar en la lista doble
+        lista_recursos_asignados.insertAtEnd({
+            'persona': persona,
+            'recurso': 'Asesoría Legal',
+            'nombre_recurso': self.nombre
+        })
+        print(f"Se ha registrado la asesoría legal {self.nombre} para la persona {persona.nombre}.")
 
-    def asignarAlimento(self, persona: Persona, arreglo_listas, lista_alimentos):
+    def asignarAlimento(self, persona: Persona, lista_alimentos):
         ###Recorrer la lista para asignar el primer alimento disponible 
         alimentos = lista_alimentos[2].deleteAtBegin()
+        if alimentos is None:
+            print("Error: No hay alimentos disponibles.")
+            return
 
-        #registrar en la lista doble 
-
-        #registrar en la lista doble
+        # Registrar en la lista doble
+        lista_recursos_asignados.insertAtEnd({
+            'persona': persona,
+            'recurso': 'Alimentos',
+            'nombre_recurso': self.nombre
+        })
+        print(f"Se ha registrado el paquete de alimentos {self.nombre} para la persona {persona.nombre}.")
 
 
 #en refugio tiene que checar la capacidad y que sea mayor a 0,metodo para meter y sacar personas y revisar capacidad esto es para los 3 aseosres,comida y refugio
@@ -124,24 +133,20 @@ class Refugio:
         #si no encontró ninguno con capacidad disponible
         print(f"Error: No hay capacidad disponible en ningún refugio")           
 
-    
-    #(PENDIENTE JOU)  
-    def liberarRefugio(self):
-        ###Recorrer la lista para liberar refugio
-        actual=arreglo_listas[1].cabeza ###Apunta al primer nodo de la lista en la posicion 0
-        while actual: ###recorre mientras que el nodo no apunte a null (es decir mientras siga habiendo nodos)
-            if actual.dato.ocupantes <= 0: ###Si el refugio (nodo) ya no tiene ocupantes/personas
-                print(f"Error: No hay ocupantes en el refugio {self.dato.nombre}.")
-                return True ###Retorna True cuando se asigna el refugio
-            actual=actual.siguiente #si ese si tiene ocupantes, pasa al siguiente
-            
-        #si no encontró ninguno con ocupantes
-        print(f"Todos los refugios estan vacíos")
-        return False 
-    #recorrer la lista de refugios y liberar el primero que tenga ocupantes (jou)
 
-    def revisarCapacidad(self):
-        return self.capacidad - self.ocupantes
+def liberarRefugio(self, nombre, persona: Persona):
+    b = Refugio(nombre) #variable arbitraria para guardar el nombre
+    refug=arreglo_listas[1].search(b)#retorna none si no encuentra nada (no esta disponible)
+    
+    if refug==None:
+        print(f"El refugio {refug.nombre} no se encuentra.")
+        return
+    elif refug.ocupante <= 0: ###Si el refugio (nodo) ya no tiene ocupantes/personas
+        print(f"Error: No hay ocupantes en el refugio {refug.nombre}.")
+        return
+    else:
+        refug.ocupantes=0 ##se libera el refugio (sin tomar en cuenta la persona)
+        return
     
 
 @dataclass
