@@ -4,6 +4,7 @@ from dataclasses import dataclass
 @dataclass
 class SeguimientoAsesoria:
     __lista_seguimiento_de_asesoria: CircularLinkedList
+    __casos_resueltos: int
     
     def __init__(self):
         self.__lista_seguimiento_de_asesoria = CircularLinkedList()
@@ -18,9 +19,16 @@ class SeguimientoAsesoria:
         
         if caso_cerrado == "si":
             self.__lista_seguimiento_de_asesoria.deleteAt(indice)
+            self.__casos_resueltos += 1
             print("Caso cerrado")
         else:
             print("Se dará seguimiento al caso")
+            
+    def get_casos_resueltos(self) -> int:
+        return self.__casos_resueltos
+    
+    def get_casos_pendientes(self) -> int:
+        return self.__lista_seguimiento_de_asesoria.size()
         
         
 @dataclass

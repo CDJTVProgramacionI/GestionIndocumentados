@@ -9,8 +9,8 @@ def crea_reporte(registro : Registro, recursos : Recursos, seguimiento_asesorias
     personas_atendidos = registro.get_casostotales()
     #recursos_utilizados = recursos.get_recursos_utilizados()
     #recursos_disponibles = recursos.get_recursos_disponibles()
-    #casos_resueltos = seguimiento_asesorias.get_casos_resueltos()
-    #casos_pendientes = registro.get_casostotales()
+    casos_resueltos = seguimiento_asesorias.get_casos_resueltos()
+    casos_pendientes = seguimiento_asesorias.get_casos_pendientes()
     #reporte = Reporte(personas_atendidos, recursos_utilizados, recursos_disponibles, casos_resueltos, casos_pendientes)
     #reporte.generar_reporte("reporte.txt")
 
