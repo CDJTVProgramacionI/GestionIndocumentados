@@ -61,6 +61,7 @@ def print_menu():
 def main():
     lee = ProReader("lib/pro_reader.dll")
     registros = Registro()
+    recursos = Recursos()
     seg_asesorias = SeguimientoAsesoria()
     seg_refugios = SeguimientoRefugios()
     op = 0
@@ -73,7 +74,23 @@ def main():
                 persona = pidedatos(lee)
                 registros.registrar(persona)
             case 2:
-                registros.atendsig()
+                sig_persona = registros.atendsig()
+                if sig_persona.necesita_asesoria():
+                    try:
+                        recursos.asignarAsesoria(sig_persona)
+                        seg_asesorias.registrar(sig_persona)
+                    except Exception as e:
+                        print(e)
+                    
+                if sig_persona.necesita_alimento():
+                    recursos.asignarAlimento(sig_persona)
+                    
+                if sig_persona.necesita_refugio():
+                    try:
+                        recursos.asignarRefugio(sig_persona)
+                        seg_refugios.registrar(sig_persona)
+                    except Exception as e:
+                        print(e)             
             case 3:
                 id = lee.read_string("Ingrese el id de la persona:")
                 seg_asesorias.darSeguimiento(id)

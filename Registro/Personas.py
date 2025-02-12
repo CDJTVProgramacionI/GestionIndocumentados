@@ -25,6 +25,15 @@ class Persona:
         self.__asesoria = asesoria
         self.__alimento = alimento
         self.__refugio = refugio
+        
+    def necesita_asesoria(self):
+        return self.__asesoria
+    
+    def necesita_alimento(self):
+        return self.__alimento
+    
+    def necesita_refugio(self):
+        return self.__refugio
 
     def __str__(self):
         return f'{self.nombre}'
