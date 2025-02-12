@@ -8,9 +8,31 @@ class Persona:
     __edad: int
     __motivo: str
     __priority: int
-    __asesoria: bool
-    __alimento : bool
-    __refugio : bool
+    __nec_asesor: bool
+    __nec_alimento : bool
+    __nec_refugio : bool
+    __asesor : str
+    __refugio : str
+    
+    @property
+    def id(self):
+        return self.__id
+    
+    @property
+    def priority(self):
+        return self.__priority
+    
+    @property
+    def nombre(self):
+        return self.__nombre
+    
+    @property
+    def asesor(self):
+        return self.__asesor
+    
+    @property
+    def refugio(self):
+        return self.__refugio
     
     
     #Urgente sera 1 y regular sera 2 
@@ -22,18 +44,29 @@ class Persona:
         self.__edad = edad
         self.__motivo = motivo
         self.__priority = priority
-        self.__asesoria = asesoria
-        self.__alimento = alimento
-        self.__refugio = refugio
+        self.__nec_asesor = asesoria
+        self.__nec_alimento = alimento
+        self.__nec_refugio = refugio
+        self.__asesor = None
+        self.__refugio = ""
         
     def necesita_asesoria(self):
-        return self.__asesoria
+        return self.__nec_asesor
     
     def necesita_alimento(self):
-        return self.__alimento
+        return self.__nec_alimento
     
     def necesita_refugio(self):
-        return self.__refugio
+        return self.__nec_refugio
+    
+    def asignar_asesor(self, nombre_asesor : str):
+        self.__asesor = nombre_asesor
+        
+    def asignar_refugio(self, nombre_refugio):
+        self.__refugio = nombre_refugio
+    
+    def get_id(self):
+        return self.__id
 
     def __str__(self):
         return f'{self.nombre}'
@@ -54,4 +87,4 @@ class Persona:
         return self.__priority >= other.__priority
 
     def __ne__(self, other):
-        return self.id != other.__id
+        return self.id != other.id

@@ -89,7 +89,7 @@ class CircularLinkedList:
         if not self.head:
             return
         if index == 0:
-            self.delete_at_beginning()
+            self.deleteAtBegin()
             return
         temp = self.head
         for _ in range(index - 1):

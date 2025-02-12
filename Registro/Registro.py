@@ -16,9 +16,9 @@ class Registro:
         self.__totalcase=0
         
     def registrar(self, persona : Persona):
-        if persona.__priority == 1: #Urgente
+        if persona.priority == 1: #Urgente
             self.__urgente.push(persona)
-        elif persona.__priority == 2: #Regular
+        elif persona.priority == 2: #Regular
             self.__regular.encolar(persona)  #mandamos a la cola a la persona 
             
         self.__totalcase += 1

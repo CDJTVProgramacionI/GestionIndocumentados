@@ -19,6 +19,10 @@ class DoubleLinkedList:
     def len(self):
         return self.__len
     
+    @property
+    def head(self):
+        return self.__head
+    
     def __init__(self):
         self.__head = None
         self.__len = 0

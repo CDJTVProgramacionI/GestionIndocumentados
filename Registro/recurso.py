@@ -9,8 +9,12 @@ from Registro.Estructuras.listaSimpleDinamica import LinkedList
 @dataclass
 class AsesorLegal:
     #ATRIBUTOS
-    __nombreasesor: str
+    __nombre: str
     __disponibilidad: bool
+    
+    @property 
+    def nombre(self):
+        return self.__nombre
 
     #CONSTRUCTOR
     def __init__(self, nombre, disponibilidad=True):
@@ -40,7 +44,7 @@ class Refugio:
 
     #MÉTODOS
     def meterPersona(self, persona : Persona):
-        if self.capacidad > len(self.ocupantes): ###Si el refugio (nodo) tiene capacidad disponible
+        if self.tiene_espacio(): ###Si el refugio (nodo) tiene capacidad disponible
                 self.ocupantes.append(persona) ### agrega la persona al refugio
         else:
             raise ValueError("No hay capacidad en el refugio")
@@ -54,6 +58,9 @@ class Refugio:
             i += 1
             
         raise ValueError("La persona no está en el refugio")
+    
+    def tiene_espacio(self):
+        return self.capacidad > len(self.ocupantes)
                         
 
 @dataclass
@@ -71,9 +78,7 @@ class Recursos:
     # Crear el arreglo de listas ligadas
     arreglo_listas = [LinkedList() for _ in range(3)] ###0=Asesor, 1=Refugio, 2=Alimentos
     lista_recursos_asignados = DoubleLinkedList() ###Lista para guardar los recursos asignados
-    
-    def __init__(self, nombre):
-        self.nombre = nombre # Nombre del recurso
+    alims_asignados = 0
         
     def insertarRecurso(self, tipo_recurso : int, recurso : any):
         match tipo_recurso:
@@ -89,66 +94,120 @@ class Recursos:
     #agregar un metodo para asignar asesor que cambie la disponibilidad a false
     def asignarAsesor(self, persona : Persona):     
         #Hacer cabeza y siguiente publicos
-        actual=self.arreglo_listas[0].cabeza ###Apunta al primer nodo de la lista en la posicion 0
+        actual=self.arreglo_listas[0].head ###Apunta al primer nodo de la lista en la posicion 0
         while actual: ###recorre mientras que el nodo no apunte a null (es decir mientras siga habiendo nodos)
-            if actual.esta_disponible(): ###Si el asesor (nodo) está disponible
-                actual.set_disponibilidad(False)
-                print(f"El asesor {self.nombre} se ha asignado.")
+            if actual.data.esta_disponible(): ###Si el asesor (nodo) está disponible
+                actual.data.set_disponibilidad(False)
+                persona.asignar_asesor(actual.data) ###asigna el asesor a la persona
+                print(f"El asesor {actual.data.nombre} se ha asignado a {persona.nombre}.")
                 return #para que se salga de la funcion cuando encuentra algo
-            actual=actual.siguiente #si no esta disponible, pasa al siguiente
+            actual=actual.next #si no esta disponible, pasa al siguiente
             
             # Registrar en la lista doble
-            self.lista_recursos_asignados.insertAtEnd({
-                'persona': persona,
-                'recurso': 'Asesoría Legal',
-                'nombre_recurso': self.nombre
-            })
+            self.lista_recursos_asignados.insertAtEnd(f"Se asignó el asesor {actual.data.nombre} a {persona.nombre}")
             print(f"Se ha registrado la asesoría legal {self.nombre} para la persona {persona.nombre}.")
             
         #si no encontró asesores
         raise ValueError(f"Error: No hay asesores disponibles.")
     
-    def liberarAsesor(self, nombre : str):
-        a = AsesorLegal(nombre) #variable arbitraria para guardar el nombre
+    def liberarAsesor(self, persona: Persona):
+        a = AsesorLegal(persona.asesor) #variable arbitraria para guardar el nombre
         asesor=self.arreglo_listas[0].search(a)#retorna none si no encuentra nada (no esta disponible)
         
         if asesor==None:
             raise ValueError(f"El asesor {asesor.nombre} no se encuentra.")
         else: 
             asesor.set_disponibilidad(True) ### lo libera cambiando la disponibilidad a true
+            print(f"El asesor {asesor.nombre} ha sido liberado.")
+            self.lista_recursos_asignados.insertAtEnd(f"Se liberó el asesor {asesor.nombre}")
             
     def asignarRefugio(self, persona: Persona):
         ###Recorrer la lista para asignar el primer refugio disponible (checando lo de capacidad)
-        actual=self.arreglo_listas[1].cabeza ###Apunta al primer nodo de la lista en la posicion 0
+        actual=self.arreglo_listas[1].head ###Apunta al primer nodo de la lista en la posicion 0
         while actual: ###recorre mientras que el nodo no apunte a null (es decir mientras siga habiendo nodos)
             try:
-                actual.meterPersona(persona)
-                print(f"El refugio {actual.dato.nombre} le fue asignado a otra nueva persona.")
+                actual.data.meterPersona(persona)
+                persona.asignar_refugio(actual.data.nombre)
+                print(f"El refugio {actual.data.nombre} le fue asignado a {persona.nombre}.")
+                self.lista_recursos_asignados.insertAtEnd(f"Se asignó el refugio {actual.data.nombre} a {persona.nombre}")
+                return
             except ValueError:
-                actual=actual.siguiente
+                actual=actual.next
             
         #si no encontró ninguno con capacidad disponible
         raise ValueError(f"Error: No hay capacidad disponible en ningún refugio") 
     
-    def liberarRefugio(self, nombre : str, persona: Persona):
-        b = Refugio(nombre) #variable arbitraria para guardar el nombre
+    def liberarRefugio(self, persona: Persona):
+        b = Refugio(persona.refugio) #variable arbitraria para guardar el nombre
         refug=self.arreglo_listas[1].search(b)#retorna none si no encuentra nada (no esta disponible)
         
         if refug==None:
             raise ValueError(f"El refugio {refug.nombre} no se encuentra.")
         else:
-            refug.sacarPersona()  
+            try:
+                refug.sacarPersona(persona.get_id())
+                print(f"La persona {persona.nombre} fue sacada del refugio {refug.nombre}.")
+                self.lista_recursos_asignados.insertAtEnd(f"Se liberó un espacio del refugio {refug.nombre}")
+            except ValueError:
+                print(f"La persona {persona.nombre} no está en el refugio {refug.nombre}.")
+             
 
-    def asignarAlimento(self, persona: Persona, lista_alimentos):
+    def asignarAlimento(self, persona: Persona):
         ###Recorrer la lista para asignar el primer alimento disponible 
-        alimentos = lista_alimentos[2].deleteAtBegin()
+        alimentos = self.arreglo_listas[2].deleteAtBegin()
         if alimentos is None:
             raise ValueError("Error: No hay alimentos disponibles.")
 
         # Registrar en la lista doble
-        self.lista_recursos_asignados.insertAtEnd({
-            'persona': persona,
-            'recurso': 'Alimentos',
-            'nombre_recurso': self.nombre
-        })
-        print(f"Se ha registrado el paquete de alimentos {self.nombre} para la persona {persona.nombre}.")
+        self.lista_recursos_asignados.insertAtEnd(f"Se asignó {alimentos.lista_alimentos} a {persona.nombre}")
+        
+        self.alims_asignados += 1
+        print(f"Se ha registrado el paquete de alimentos {alimentos.lista_alimentos} para la persona {persona.nombre}.")
+
+
+    def __recursos_disp_asesores(self): 
+        cant_de_asesores = 0
+        actual=self.arreglo_listas[0].head
+        while actual: 
+            if actual.esta_disponible(): 
+                cant_de_asesores+=1
+
+            actual=actual.next
+        
+        return cant_de_asesores
+
+    def __recursos_disp_alimentos(self):
+        numpaquetes= self.arreglo_listas[2].len
+        return numpaquetes
+
+    def __recursos_disp_refugios(self): 
+        cant_de_refugios=0
+        actual=self.arreglo_listas[1].head
+        while actual: 
+            if actual.data.tiene_espacio():
+                cant_de_refugios+=1
+                
+            actual=actual.next
+        return cant_de_refugios
+    
+    def recursos_disponibles(self):
+        arraydisp=[]
+        arraydisp[0]=self.__recursos_disp_asesores()
+        arraydisp[1]=self.__recursos_disp_refugios()
+        arraydisp[2]=self.__recursos_disp_alimentos()
+        return arraydisp
+    
+    def recursos_usados(self): 
+        arrayusados=[]
+        actual=self.lista_recursos_asignados.head
+        contasesor=0
+        contrefugiados=0
+
+        arrayusados[0]= contasesor
+        arrayusados[1]= self.alims_asignados
+        arrayusados[2]= contrefugiados
+
+        return arrayusados
+    
+    def imprimir_historial(self):
+        self.lista_recursos_asignados.print()
