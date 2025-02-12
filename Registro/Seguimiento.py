@@ -1,4 +1,4 @@
-from Estructuras.listaCircularDinamica import CircularLinkedList
+from Registro.Estructuras.listaCircularDinamica import CircularLinkedList
 from dataclasses import dataclass
 
 @dataclass

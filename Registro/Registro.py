@@ -1,7 +1,7 @@
 from dataclasses import dataclass
-from Estructuras.Piladinamica import pila
-from Estructuras.colalineal import ColaLineal
-from Personas import Persona
+from Registro.Estructuras.Piladinamica import pila
+from Registro.Estructuras.colalineal import ColaLineal
+from Registro.Personas import Persona
 
 @dataclass
 class Registro:
