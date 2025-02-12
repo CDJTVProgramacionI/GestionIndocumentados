@@ -92,6 +92,16 @@ class LinkedList:
         current.next = current.next.next
         self.__len -= 1
         return val    
+    
+    def getAt(self, index : int) -> any:
+        if index < 0 or index >= self.__len:
+            raise IndexError("Índice fuera de rango")
+        
+        current = self.__head
+        for i in range(0, index):
+            current = current.next
+                
+        return current.data
             
     def search(self, data : any) -> any:
         current = self.__head
