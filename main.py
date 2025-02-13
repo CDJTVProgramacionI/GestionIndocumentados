@@ -86,8 +86,7 @@ def main():
         
         match op:
             case 1:
-                #persona = pidedatos(lee)
-                persona = Persona("Juan", "123", "Mexicana", 20, "Repatriacion", 1, True, True, True)
+                persona = pidedatos(lee)
                 registros.registrar(persona)
             case 2:
                 sig_persona = registros.atendsig()

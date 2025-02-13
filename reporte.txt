@@ -1,9 +1,0 @@
-Casos atendidos: 1
-Hay 0 asesores asignados a algún caso
-Se han asignado 1 paquetes de alimentos
-Hay 0 refugios al 100% de su capacidad
-Hay 3 asesores disponibles
-Hay 3 refugios disponibles
-Hay 2 paquetes de alimentos disponibles
-Casos Resueltos: 1
-Casos Pendientes: 0
