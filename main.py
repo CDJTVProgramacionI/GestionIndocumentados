@@ -98,6 +98,7 @@ def main():
                 if sig_persona.necesita_asesoria():
                     try:
                         recursos.asignarAsesor(sig_persona)
+                        print(sig_persona.asesor)
                         seg_asesorias.registrar(sig_persona)
                     except ValueError as e:
                         print(e)

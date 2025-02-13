@@ -26,6 +26,12 @@ class AsesorLegal:
                 
     def esta_disponible(self):
         return self.__disponibilidad
+    
+    def __eq__(self, value):
+        return self.nombre == value.nombre
+    
+    def __neq__(self, value):
+        return self.nombre != value.nombre
 
 
 
@@ -61,6 +67,12 @@ class Refugio:
     
     def tiene_espacio(self):
         return self.capacidad > len(self.ocupantes)
+    
+    def __eq__(self, value):
+        return self.nombre == value.nombre
+    
+    def __neq__(self, value):
+        return self.nombre != value.nombre
                         
 
 @dataclass
@@ -98,14 +110,12 @@ class Recursos:
         while actual: ###recorre mientras que el nodo no apunte a null (es decir mientras siga habiendo nodos)
             if actual.data.esta_disponible(): ###Si el asesor (nodo) está disponible
                 actual.data.set_disponibilidad(False)
-                persona.asignar_asesor(actual.data) ###asigna el asesor a la persona
+                persona.asignar_asesor(actual.data.nombre) ###asigna el asesor a la persona
                 print(f"El asesor {actual.data.nombre} se ha asignado a {persona.nombre}.")
+                # Registrar en la lista doble
+                self.lista_recursos_asignados.insertAtEnd(f"Se asignó el asesor {actual.data.nombre} a {persona.nombre}")
                 return #para que se salga de la funcion cuando encuentra algo
             actual=actual.next #si no esta disponible, pasa al siguiente
-            
-            # Registrar en la lista doble
-            self.lista_recursos_asignados.insertAtEnd(f"Se asignó el asesor {actual.data.nombre} a {persona.nombre}")
-            print(f"Se ha registrado la asesoría legal {self.nombre} para la persona {persona.nombre}.")
             
         #si no encontró asesores
         raise ValueError(f"Error: No hay asesores disponibles.")
@@ -114,8 +124,8 @@ class Recursos:
         a = AsesorLegal(persona.asesor) #variable arbitraria para guardar el nombre
         asesor=self.arreglo_listas[0].search(a)#retorna none si no encuentra nada (no esta disponible)
         
-        if asesor==None:
-            raise ValueError(f"El asesor {asesor.nombre} no se encuentra.")
+        if asesor is None:
+            raise ValueError(f"El asesor {persona.asesor} no se encuentra.")
         else: 
             asesor.set_disponibilidad(True) ### lo libera cambiando la disponibilidad a true
             print(f"El asesor {asesor.nombre} ha sido liberado.")
@@ -138,10 +148,10 @@ class Recursos:
         raise ValueError(f"Error: No hay capacidad disponible en ningún refugio") 
     
     def liberarRefugio(self, persona: Persona):
-        b = Refugio(persona.refugio) #variable arbitraria para guardar el nombre
+        b = Refugio(persona.refugio, 0) #variable arbitraria para guardar el nombre
         refug=self.arreglo_listas[1].search(b)#retorna none si no encuentra nada (no esta disponible)
         
-        if refug==None:
+        if refug is None:
             raise ValueError(f"El refugio {refug.nombre} no se encuentra.")
         else:
             try:
@@ -169,7 +179,7 @@ class Recursos:
         cant_de_asesores = 0
         actual=self.arreglo_listas[0].head
         while actual: 
-            if actual.esta_disponible(): 
+            if actual.data.esta_disponible(): 
                 cant_de_asesores+=1
 
             actual=actual.next
@@ -191,21 +201,36 @@ class Recursos:
         return cant_de_refugios
     
     def recursos_disponibles(self):
-        arraydisp=[]
+        arraydisp=[0]*3
         arraydisp[0]=self.__recursos_disp_asesores()
         arraydisp[1]=self.__recursos_disp_refugios()
         arraydisp[2]=self.__recursos_disp_alimentos()
         return arraydisp
     
+    def __asesores_usados(self): 
+        cant_de_asesores = 0
+        actual=self.arreglo_listas[0].head 
+        while actual: 
+            if not actual.data.esta_disponible(): 
+                cant_de_asesores+=1
+            actual=actual.next
+        return cant_de_asesores
+    
+    def __refugios_usados(self): 
+        cant_de_refugios=0
+        actual=self.arreglo_listas[1].head
+        while actual: 
+            if not actual.data.tiene_espacio():
+                cant_de_refugios+=1
+            actual=actual.next
+        return cant_de_refugios
+    
     def recursos_usados(self): 
-        arrayusados=[]
-        actual=self.lista_recursos_asignados.head
-        contasesor=0
-        contrefugiados=0
+        arrayusados=[0]*3
 
-        arrayusados[0]= contasesor
+        arrayusados[0]= self.__asesores_usados()
         arrayusados[1]= self.alims_asignados
-        arrayusados[2]= contrefugiados
+        arrayusados[2]= self.__refugios_usados()
 
         return arrayusados
     

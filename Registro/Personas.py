@@ -47,7 +47,7 @@ class Persona:
         self.__nec_asesor = asesoria
         self.__nec_alimento = alimento
         self.__nec_refugio = refugio
-        self.__asesor = None
+        self.__asesor = ""
         self.__refugio = ""
         
     def necesita_asesoria(self):

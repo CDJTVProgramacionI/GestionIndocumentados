@@ -27,7 +27,7 @@ class SeguimientoAsesoria:
         caso_cerrado = input("¿Se cerró el caso?").lower()
         
         if caso_cerrado == "si":
-            self.__lista_seguimiento_de_asesoria.deleteAt(indice)
+            persona = self.__lista_seguimiento_de_asesoria.deleteAt(indice)
             self.__casos_resueltos += 1
             recursos.liberarAsesor(persona)
             print("Caso cerrado")
@@ -65,6 +65,6 @@ class SeguimientoRefugios:
         if caso_cerrado == "si":
             print("Se dará seguimiento más adelante")
         else:
-            self.__lista_seguimiento_de_refugios.deleteAt(indice)
+            persona = self.__lista_seguimiento_de_refugios.deleteAt(indice)
             recursos.liberarRefugio(persona)
             print("Refugio liberado")

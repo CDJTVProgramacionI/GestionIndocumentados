@@ -41,7 +41,7 @@ class CircularLinkedList:
             temp.next = new_node
             new_node.next = self.head
             
-        self.__len
+        self.__len += 1
 
     def insertAt(self, index, data):
         if index == 0:
@@ -58,47 +58,56 @@ class CircularLinkedList:
         
         self.__len += 1
 
-    def deleteAtBegin(self):
+    def deleteAtBegin(self) -> any:
         if not self.head:
-            return
+            return None
         if self.head.next == self.head:
+            temp = self.head
             self.head = None
+            self.__len -= 1
+            return temp.data
         else:
             temp = self.head
             while temp.next != self.head:
                 temp = temp.next
             temp.next = self.head.next
+            data = self.head.data
             self.head = self.head.next
             
         self.__len -= 1
+        return data
 
-    def deleteAtEnd(self):
+    def deleteAtEnd(self) -> any:
         if not self.head:
-            return
+            return None
         if self.head.next == self.head:
+            data = self.head.data
             self.head = None
         else:
             temp = self.head
             while temp.next.next != self.head:
                 temp = temp.next
+            data = temp.next.data
             temp.next = self.head
             
         self.__len -= 1
+        return data
 
-    def deleteAt(self, index):
+    def deleteAt(self, index) -> any:
         if not self.head:
-            return
+            return None
         if index == 0:
-            self.deleteAtBegin()
-            return
+            return self.deleteAtBegin()
         temp = self.head
         for _ in range(index - 1):
             temp = temp.next
             if temp.next == self.head:
                 raise IndexError("Index out of bounds")
+        data = temp.next.data
         temp.next = temp.next.next
         
         self.__len -= 1
+        return data
 
     def search(self, data):
         index = -1
